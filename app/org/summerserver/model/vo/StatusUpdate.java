@@ -4,20 +4,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Table(name = "status_updates")
 public class StatusUpdate extends Message {
-    @Column
+
     protected int likesCount;
-
-    @Column
     protected int commentCount;
-
-    @Column
     protected int relevance;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "statusUpdate")
     protected List<Comment> comments;
 
+    public StatusUpdate() {
+        super();
+        likesCount = commentCount = relevance = 0;
+    }
+
+    @Column(name = "likes_count")
     public int getLikesCount() {
         return likesCount;
     }
@@ -26,6 +27,7 @@ public class StatusUpdate extends Message {
         this.likesCount = likesCount;
     }
 
+    @Column(name = "comments_count")
     public int getCommentCount() {
         return commentCount;
     }
@@ -34,6 +36,7 @@ public class StatusUpdate extends Message {
         this.commentCount = commentCount;
     }
 
+    @Column(name = "relevance")
     public int getRelevance() {
         return relevance;
     }
@@ -42,11 +45,30 @@ public class StatusUpdate extends Message {
         this.relevance = relevance;
     }
 
+    @OneToMany(mappedBy = "statusUpdate", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        comment.setStatusUpdate(this);
+        comments.add(comment);
+        commentCount++;
+
+        recalculateRelevance();
+    }
+
+    public void addLike() {
+        likesCount++;
+
+        recalculateRelevance();
+    }
+
+    private void recalculateRelevance() {
+        relevance = likesCount + commentCount * 2;
     }
 }

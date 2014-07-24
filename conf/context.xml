@@ -8,8 +8,7 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <!-- Allows us to use system properties as variables in this configuration
-        file -->
+    <!-- Allows us to use system properties as variables in this configuration file -->
     <bean
             class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
@@ -64,7 +63,7 @@
         </property>
         <property name="packagesToScan">
             <list>
-                <value>com.grupoasv.model.vo</value>
+                <value>org.summerserver.model.vo</value>
             </list>
         </property>
     </bean>
@@ -122,7 +121,31 @@
     </bean>
 
     <bean id="statusUpdateDAOTarget"
-          class="org.summerserver.model.dao.impl.statusUpdateDAOImpl">
+          class="org.summerserver.model.dao.impl.StatusUpdateDAOImpl">
+        <qualifier value="target"/>
+        <property name="hibernateTemplate">
+            <ref local="hibernateTemplate"/>
+        </property>
+    </bean>
+
+    <bean id="commentDAO"
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref local="transactionManager"/>
+        </property>
+        <property name="target">
+            <ref local="CommentDAOTarget"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="makePersistent">PROPAGATION_REQUIRED</prop>
+                <prop key="find*">PROPAGATION_REQUIRED, readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="CommentDAOTarget"
+          class="org.summerserver.model.dao.impl.CommentDAOImpl">
         <qualifier value="target"/>
         <property name="hibernateTemplate">
             <ref local="hibernateTemplate"/>
@@ -130,9 +153,9 @@
     </bean>
 
     <!-- Controller -->
-    <!--
-        <bean id="cleaningTechnicalAssistantServices" class="com.grupoasv.controllers.CleaningTechnicalAssistantServices"></bean>
-    -->
+    <bean id="commentsServices" class="org.summerserver.controllers.CommentsServices"></bean>
+    <bean id="likesServices" class="org.summerserver.controllers.LikesServices"></bean>
+    <bean id="statusUpdateServices" class="org.summerserver.controllers.StatusUpdateServices"></bean>
 
 
     <context:component-scan base-package="org.summerserver"/>

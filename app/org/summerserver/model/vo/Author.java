@@ -5,9 +5,16 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Author {
-    @Column(name = "author_name")
     protected String name;
 
+    public Author() {
+    }
+
+    public Author(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "author_name")
     public String getName() {
         return name;
     }

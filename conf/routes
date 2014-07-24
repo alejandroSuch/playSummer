@@ -2,8 +2,25 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
+# Wall
+POST        /services/wall                        @org.summerserver.controllers.StatusUpdateServices.addStatusUpdate()
+GET         /services/wall                        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int=1)
+GET         /services/wall/:page                  @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int)
+
+# Wall by relevance
+GET         /services/wall/relevance              @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
+GET         /services/wall/relevance/:page        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
+
+# User
+GET         /services/user/:userId                @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int=1)
+GET         /services/user/:userId/:page          @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int)
+
+# New Posts & Comments
+POST        /services/comments/:id                @org.summerserver.controllers.CommentsServices.addComment(id:String)
+GET         /services/comments/:id                @org.summerserver.controllers.CommentsServices.getComments(id:String)
+
+# Likes
+POST        /services/likes                       @org.summerserver.controllers.LikesServices.like()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file                         controllers.Assets.at(path="/public", file)
