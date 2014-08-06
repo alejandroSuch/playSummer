@@ -1,35 +1,41 @@
 package org.summerserver.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
-import java.beans.*;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonAutoDetect
 public abstract class Message {
 
-    protected String id;
+    @JsonProperty
+    protected Long id;
+    @JsonProperty
     protected Date date;
 
     @Embedded
+    @JsonProperty
     protected Author author;
+    @JsonProperty
     protected String message;
 
     public Message() {
-        id = UUID.randomUUID().toString();
         date = new Date();
     }
 
     @Id
     @Column(name = "id", length = 255)
-    public String getId() {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
         return id;
     }
 
     @java.beans.Transient
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -104,8 +104,15 @@
         </property>
     </bean>
 
-    <bean id="statusUpdateDAO"
-          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+
+    <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+
+    <bean id="statusUpdateDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref local="transactionManager"/>
         </property>
@@ -128,13 +135,12 @@
         </property>
     </bean>
 
-    <bean id="commentDAO"
-          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <bean id="commentDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
         <property name="transactionManager">
             <ref local="transactionManager"/>
         </property>
         <property name="target">
-            <ref local="CommentDAOTarget"/>
+            <ref local="commentDAOTarget"/>
         </property>
         <property name="transactionAttributes">
             <props>
@@ -144,7 +150,7 @@
         </property>
     </bean>
 
-    <bean id="CommentDAOTarget"
+    <bean id="commentDAOTarget"
           class="org.summerserver.model.dao.impl.CommentDAOImpl">
         <qualifier value="target"/>
         <property name="hibernateTemplate">

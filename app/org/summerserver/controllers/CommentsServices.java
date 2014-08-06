@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.summerserver.model.dao.CommentDAO;
 import org.summerserver.model.dao.StatusUpdateDAO;
 import org.summerserver.model.vo.Author;
 import org.summerserver.model.vo.Comment;
 import org.summerserver.model.vo.StatusUpdate;
 import play.mvc.Result;
+
+import java.util.List;
 
 @Controller
 public class CommentsServices extends play.mvc.Controller {
@@ -18,31 +21,36 @@ public class CommentsServices extends play.mvc.Controller {
     @Qualifier(value = "target")
     StatusUpdateDAO statusUpdateDAO;
 
+    @Autowired
+    @Qualifier(value = "target")
+    CommentDAO commentDAO;
+
     private Result getResult(Object result) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
         return ok(mapper.writeValueAsString(result));
     }
 
-    public Result getComments(String id) throws JsonProcessingException {
-        StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
+    public Result getComments(Long id) throws JsonProcessingException {
+        StatusUpdate statusUpdate = statusUpdateDAO.findStatusWithComments(id);
+        System.out.println("comments are!!! " + statusUpdate.getComments());
+        statusUpdate.setJsonComments(statusUpdate.getComments());
 
         if (statusUpdate == null) {
             return notFound("Comment not found");
         }
-        statusUpdate.getComments(); //Force fetch??
 
         return getResult(statusUpdate);
     }
 
-    public Result addComment(String id) throws JsonProcessingException {
+    public Result addComment(Long id) throws JsonProcessingException {
         StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
         if (statusUpdate == null) {
             return notFound("Comment not found");
         }
 
         JsonNode json = request().body().asJson();
-        if(json == null) {
+        if (json == null) {
             return badRequest("Expecting Json data");
         } else {
             Comment comment = new Comment();
@@ -56,16 +64,12 @@ public class CommentsServices extends play.mvc.Controller {
             statusUpdateDAO.makePersistent(statusUpdate);
         }
 
-
-
-
-
         return ok();
     }
 
     public Result addStatusUpdate() throws JsonProcessingException {
         JsonNode json = request().body().asJson();
-        if(json == null) {
+        if (json == null) {
             return badRequest("Expecting Json data");
         } else {
             StatusUpdate statusUpdate = new StatusUpdate();

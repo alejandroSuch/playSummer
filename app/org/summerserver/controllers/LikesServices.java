@@ -19,7 +19,7 @@ public class LikesServices extends play.mvc.Controller {
         if (json == null) {
             return badRequest("Expecting Json data");
         } else {
-            String id = json.findPath("status").textValue();
+            Long id = json.findPath("status").asLong();
             StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
 
             if (statusUpdate == null) {

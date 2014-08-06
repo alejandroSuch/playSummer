@@ -16,8 +16,8 @@ GET         /services/user/:userId                @org.summerserver.controllers.
 GET         /services/user/:userId/:page          @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int)
 
 # New Posts & Comments
-POST        /services/comments/:id                @org.summerserver.controllers.CommentsServices.addComment(id:String)
-GET         /services/comments/:id                @org.summerserver.controllers.CommentsServices.getComments(id:String)
+POST        /services/comments/:id                @org.summerserver.controllers.CommentsServices.addComment(id:Long)
+GET         /services/comments/:id                @org.summerserver.controllers.CommentsServices.getComments(id:Long)
 
 # Likes
 POST        /services/likes                       @org.summerserver.controllers.LikesServices.like()

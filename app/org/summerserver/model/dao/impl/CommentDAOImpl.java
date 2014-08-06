@@ -1,16 +1,23 @@
 package org.summerserver.model.dao.impl;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.summerserver.model.dao.CommentDAO;
 import org.summerserver.model.dao.base.hibernate.spring.impl.GenericHibernateSpringDAOImpl;
 import org.summerserver.model.vo.Comment;
+import org.summerserver.model.vo.StatusUpdate;
 
-/**
- * Created by asuch on 24/07/2014.
- */
-public class CommentDAOImpl extends GenericHibernateSpringDAOImpl<Comment, String> implements CommentDAO {
+import java.util.List;
+
+public class CommentDAOImpl extends GenericHibernateSpringDAOImpl<Comment, Long> implements CommentDAO {
     public CommentDAOImpl() {
         super(Comment.class);
     }
 
+    @Override
+    public List<Comment> findCommentsFromStatusUpdate(StatusUpdate statusUpdate) {
+        Criterion eqCriteria = Restrictions.eq("statusUpdate.id", statusUpdate.getId());
 
+        return findByCriteria(eqCriteria);
+    }
 }
