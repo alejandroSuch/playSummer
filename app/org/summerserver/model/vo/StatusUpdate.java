@@ -29,7 +29,7 @@ public class StatusUpdate extends Message {
     @JsonIgnore
     protected List<Comment> comments;
 
-    @JsonProperty( value = "comments" )
+    @JsonProperty(value = "comments")
     List<Comment> jsonComments;
 
     public StatusUpdate() {
@@ -37,7 +37,8 @@ public class StatusUpdate extends Message {
         likesCount = commentCount = relevance = 0;
     }
 
-    @Transient @JsonProperty
+    @Transient
+    @JsonProperty
     public HashMap<String, Integer> getCounters() {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         map.put("likesCount", likesCount);
@@ -100,12 +101,12 @@ public class StatusUpdate extends Message {
         relevance = likesCount + commentCount * 2;
     }
 
-    public void setJsonComments(List<Comment> jsonComments){
-         this.jsonComments = jsonComments;
+    public void setJsonComments(List<Comment> jsonComments) {
+        this.jsonComments = jsonComments;
     }
 
     @Transient
     public List<Comment> getJsonComments() {
-         return jsonComments;
+        return jsonComments;
     }
 }
