@@ -20,6 +20,10 @@ public class Global extends GlobalSettings {
             Promise<SimpleResult> call = this.delegate.call(ctx);
             Http.Response response = ctx.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT");
+            response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+
             return call;
         }
     }
