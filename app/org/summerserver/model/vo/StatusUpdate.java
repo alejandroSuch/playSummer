@@ -97,6 +97,12 @@ public class StatusUpdate extends Message {
         recalculateRelevance();
     }
 
+    public void removeLike() {
+        likesCount--;
+
+        recalculateRelevance();
+    }
+
     private void recalculateRelevance() {
         relevance = likesCount + commentCount * 2;
     }

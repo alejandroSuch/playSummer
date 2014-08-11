@@ -20,13 +20,20 @@ public class LikesServices extends play.mvc.Controller {
             return badRequest("Expecting Json data");
         } else {
             Long id = json.findPath("status").asLong();
+            int increment = json.findPath("increment").asInt();
+
             StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
 
             if (statusUpdate == null) {
                 return notFound("Status update not found");
             }
 
-            statusUpdate.addLike();
+            if(increment > 0) {
+                statusUpdate.addLike();
+            } else {
+                statusUpdate.removeLike();
+            }
+
             statusUpdateDAO.makePersistent(statusUpdate);
         }
 
