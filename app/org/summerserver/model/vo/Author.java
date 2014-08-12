@@ -2,6 +2,7 @@ package org.summerserver.model.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Author {
@@ -15,6 +16,7 @@ public class Author {
     }
 
     @Column(name = "author_name")
+    @NotNull
     public String getName() {
         return name;
     }

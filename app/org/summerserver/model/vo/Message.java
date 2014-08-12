@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
@@ -20,6 +22,7 @@ public abstract class Message {
     @Embedded
     @JsonProperty
     protected Author author;
+
     @JsonProperty
     protected String message;
 
@@ -58,6 +61,8 @@ public abstract class Message {
     }
 
     @Column(name = "message")
+    @NotNull
+    @Pattern(regexp = "/^\\.$/")
     public String getMessage() {
         return message;
     }

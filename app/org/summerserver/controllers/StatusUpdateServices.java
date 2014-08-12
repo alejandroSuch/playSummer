@@ -11,7 +11,12 @@ import org.summerserver.model.vo.Author;
 import org.summerserver.model.vo.StatusUpdate;
 import play.mvc.Result;
 
+/*import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;*/
 import java.util.List;
+//import java.util.Set;
 
 @Controller
 public class StatusUpdateServices extends play.mvc.Controller {
@@ -52,9 +57,17 @@ public class StatusUpdateServices extends play.mvc.Controller {
             statusUpdate.setMessage(text);
             statusUpdate.setAuthor(new Author(author));
 
-            statusUpdateDAO.makePersistent(statusUpdate);
-        }
+            /*ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+            Validator validator = validatorFactory.getValidator();
+            Set<ConstraintViolation<StatusUpdate>> errors = validator.validate(statusUpdate);*/
 
-        return ok();
+            //if(errors.size() > 0) {
+                StatusUpdate result = statusUpdateDAO.makePersistent(statusUpdate);
+                return getResult(result);
+            /*} else {
+                return getResult(errors);
+            }*/
+
+        }
     }
 }
