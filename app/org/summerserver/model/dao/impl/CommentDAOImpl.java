@@ -2,6 +2,7 @@ package org.summerserver.model.dao.impl;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.summerserver.model.dao.CommentDAO;
 import org.summerserver.model.dao.base.hibernate.spring.impl.GenericHibernateSpringDAOImpl;
 import org.summerserver.model.vo.Comment;

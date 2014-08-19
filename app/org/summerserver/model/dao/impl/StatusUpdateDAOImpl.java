@@ -1,5 +1,6 @@
 package org.summerserver.model.dao.impl;
 
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -60,5 +61,25 @@ public class StatusUpdateDAOImpl extends GenericHibernateSpringDAOImpl<StatusUpd
         Criterion eqCriteria = Restrictions.eq("author.name", user);
 
         return findByCriteria(offset, limit, order, eqCriteria);
+    }
+
+    @Override
+    public Comment addComment(Long statusUpdateId, Comment comment) {
+        StatusUpdate statusUpdate = this.getById(statusUpdateId, false);
+        getHibernateTemplate().delete(statusUpdate);
+        SessionFactoryUtils.initDeferredClose(getHibernateTemplate().getSessionFactory());
+        try {
+//        Transaction transaction = getSession().beginTransaction();
+//            getHibernateTemplate().merge(statusUpdate);
+//            getSession().merge(statusUpdate);
+            comment.setStatusUpdate(statusUpdate);
+            statusUpdate.addComment(comment);
+            this.makePersistent(statusUpdate);
+//        transaction.commit();
+        } finally {
+            SessionFactoryUtils.processDeferredClose(getHibernateTemplate().getSessionFactory());
+        }
+
+        return comment;
     }
 }

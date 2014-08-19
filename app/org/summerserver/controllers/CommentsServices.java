@@ -44,7 +44,9 @@ public class CommentsServices extends play.mvc.Controller {
     }
 
     public Result addComment(Long id) throws JsonProcessingException {
+        Comment comment = null;
         StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
+
         if (statusUpdate == null) {
             return notFound("Comment not found");
         }
@@ -53,18 +55,41 @@ public class CommentsServices extends play.mvc.Controller {
         if (json == null) {
             return badRequest("Expecting Json data");
         } else {
-            Comment comment = new Comment();
+            comment = new Comment();
             String text = json.findPath("text").textValue();
             String author = json.findPath("author").textValue();
 
             comment.setMessage(text);
             comment.setAuthor(new Author(author));
-            statusUpdate.addComment(comment);
+            comment.setStatusUpdate(statusUpdate);
+            //statusUpdate.addComment(comment);
 
-            statusUpdateDAO.makePersistent(statusUpdate);
+            commentDAO.makePersistent(comment);
         }
 
-        return ok();
+        return getResult(comment);
+
+        /*Comment comment = null;
+        StatusUpdate statusUpdate = statusUpdateDAO.getById(id, false);
+
+        if (statusUpdate == null) {
+            return notFound("Status update not found");
+        }
+
+        JsonNode json = request().body().asJson();
+        if (json == null) {
+            return badRequest("Expecting Json data");
+        } else {
+            comment = new Comment();
+            String text = json.findPath("text").textValue();
+            String author = json.findPath("author").textValue();
+
+            comment.setMessage(text);
+            comment.setAuthor(new Author(author));
+            comment = statusUpdateDAO.addComment(statusUpdate.getId(), comment);
+        }
+
+        return getResult(comment);*/
     }
 
     public Result addStatusUpdate() throws JsonProcessingException {

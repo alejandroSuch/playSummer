@@ -18,6 +18,8 @@ libraryDependencies ++= Seq(
 "org.slf4j" % "slf4j-api" % "1.6.1",
 "mysql" % "mysql-connector-java" % "5.1.31",
 "org.hibernate" % "hibernate-entitymanager" % "3.4.0.GA" exclude("org.slf4j", "slf4j-api") exclude("org.slf4j", "slf4j-log4j12"),
+"javax.validation" % "validation-api" % "1.0.0.GA",
+"org.hibernate" % "hibernate-validator" % "4.2.0.Final",
 "org.springframework" % "spring-test" % spring_version,
 "org.springframework" % "spring-context" % spring_version,
 "org.springframework" % "spring-orm" % spring_version,
