@@ -54,6 +54,7 @@ public class StatusUpdate extends Message {
 
     public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
+        recalculateRelevance();
     }
 
     @Column(name = "comments_count")
@@ -63,6 +64,7 @@ public class StatusUpdate extends Message {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+        recalculateRelevance();
     }
 
     @Column(name = "relevance")

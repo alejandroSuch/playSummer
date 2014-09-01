@@ -62,9 +62,12 @@ public class CommentsServices extends play.mvc.Controller {
             comment.setMessage(text);
             comment.setAuthor(new Author(author));
             comment.setStatusUpdate(statusUpdate);
+
+            statusUpdate.setCommentCount(statusUpdate.getCommentCount()+1);
             //statusUpdate.addComment(comment);
 
             commentDAO.makePersistent(comment);
+            statusUpdateDAO.makePersistent(statusUpdate);
         }
 
         return getResult(comment);

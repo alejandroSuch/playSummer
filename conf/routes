@@ -3,28 +3,30 @@
 # ~~~~
 
 #OPTIONS
-OPTIONS     /                                     controllers.Application.rootOptions()
-OPTIONS     /*url                                 controllers.Application.options(url:String)
+OPTIONS        /                                     controllers.Application.rootOptions()
+OPTIONS        /*url                                 controllers.Application.options(url:String)
 
 # Wall
-POST        /services/wall                        @org.summerserver.controllers.StatusUpdateServices.addStatusUpdate()
-GET         /services/wall                        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int=1)
-GET         /services/wall/:page                  @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int)
+POST           /services/wall                        @org.summerserver.controllers.StatusUpdateServices.addStatusUpdate()
+GET            /services/wall                        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int=1)
+GET            /services/wall/:page                  @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int)
+GET            /services/wall/by-relevance           @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
+GET            /services/wall/by-relevance/:page     @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
 
 # Wall by relevance
-GET         /services/wall/relevance              @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
-GET         /services/wall/relevance/:page        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
+GET            /services/wall/relevance              @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
+GET            /services/wall/relevance/:page        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
 
 # User
-GET         /services/user/:userId                @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int=1)
-GET         /services/user/:userId/:page          @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int)
+GET            /services/user/:userId                @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int=1)
+GET            /services/user/:userId/:page          @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int)
 
 # New Posts & Comments
-POST        /services/comments/:id                @org.summerserver.controllers.CommentsServices.addComment(id:Long)
-GET         /services/comments/:id                @org.summerserver.controllers.CommentsServices.getComments(id:Long)
+POST           /services/comments/:id                @org.summerserver.controllers.CommentsServices.addComment(id:Long)
+GET            /services/comments/:id                @org.summerserver.controllers.CommentsServices.getComments(id:Long)
 
 # Likes
-POST        /services/likes                       @org.summerserver.controllers.LikesServices.like()
+POST           /services/likes                       @org.summerserver.controllers.LikesServices.like()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                         controllers.Assets.at(path="/public", file)
+GET            /assets/*file                         controllers.Assets.at(path="/public", file)

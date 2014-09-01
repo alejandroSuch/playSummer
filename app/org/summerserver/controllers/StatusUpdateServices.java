@@ -9,13 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.summerserver.model.dao.StatusUpdateDAO;
 import org.summerserver.model.vo.Author;
 import org.summerserver.model.vo.StatusUpdate;
+import org.summerserver.util.Constants;
 import play.mvc.Result;
 
 /*import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;*/
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 //import java.util.Set;
 
 @Controller
@@ -31,18 +34,27 @@ public class StatusUpdateServices extends play.mvc.Controller {
     }
 
     public Result getStatusUpdates(int page) throws JsonProcessingException {
-        List<StatusUpdate> statusUpdates = statusUpdateDAO.getAllStatusUpdates(page);
-        return getResult(statusUpdates);
+        Map<String, Object> result = new HashMap<>();
+        result.put("statusUpdates", statusUpdateDAO.getAllStatusUpdates(page));
+        result.put("pageCount", new Double(Math.ceil(statusUpdateDAO.countAll() / Constants.ITEMS_PER_PAGE)));
+
+        return getResult(result);
     }
 
     public Result getStatusUpdatesByRelevance(int page) throws JsonProcessingException {
-        List<StatusUpdate> statusUpdates = statusUpdateDAO.getAllStatusUpdatesByRelevance(page);
-        return getResult(statusUpdates);
+        Map<String, Object> result = new HashMap<>();
+        result.put("statusUpdates", statusUpdateDAO.getAllStatusUpdatesByRelevance(page));
+        result.put("pageCount", new Double(Math.ceil(statusUpdateDAO.countAll() / Constants.ITEMS_PER_PAGE)));
+
+        return getResult(result);
     }
 
     public Result getUserStatusUpdates(String user, int page) throws JsonProcessingException {
-        List<StatusUpdate> statusUpdates = statusUpdateDAO.getAllStatusUpdatesByUser(user, page);
-        return getResult(statusUpdates);
+        Map<String, Object> result = new HashMap<>();
+        result.put("statusUpdates", statusUpdateDAO.getAllStatusUpdatesByUser(user, page));
+        result.put("pageCount", new Double(Math.ceil(statusUpdateDAO.countAllByUser(user) / Constants.ITEMS_PER_PAGE)));
+
+        return getResult(result);
     }
 
     public Result addStatusUpdate() throws JsonProcessingException {

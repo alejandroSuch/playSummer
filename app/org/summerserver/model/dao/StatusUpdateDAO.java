@@ -17,4 +17,6 @@ public interface StatusUpdateDAO extends GenericHibernateDAO<StatusUpdate, Long>
     public List<StatusUpdate> getAllStatusUpdatesByUser(String user, int page);
 
     public Comment addComment(Long statusUpdateId, Comment comment);
+
+    public Long countAllByUser(String username);
 }

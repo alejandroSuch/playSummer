@@ -1,5 +1,6 @@
 package org.summerserver.model.dao.impl;
 
+import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -81,5 +82,12 @@ public class StatusUpdateDAOImpl extends GenericHibernateSpringDAOImpl<StatusUpd
         }
 
         return comment;
+    }
+
+    @Override
+    public Long countAllByUser(String username) {
+        Query query = getSession().createQuery("SELECT COUNT(*) FROM " + this.getPersistentClass().getSimpleName() + " WHERE author.name = :name ");
+        query.setParameter("name", username);
+        return (Long) query.uniqueResult();
     }
 }
