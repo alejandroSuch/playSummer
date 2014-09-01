@@ -1,7 +1,8 @@
-package org.summerserver.model.dao.base.impl;
+package org.summerserver.model.dao.base.hibernate.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
@@ -100,6 +101,12 @@ public class GenericHibernateDAOImpl<T, ID extends Serializable> implements Gene
         }
 
         return crit.list();
+    }
+
+    @Override
+    public Long countAll() {
+        Query query = getSession().createQuery("SELECT COUNT(*) FROM " + this.getPersistentClass().getSimpleName());
+        return (Long) query.uniqueResult();
     }
 
 }

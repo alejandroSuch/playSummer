@@ -277,4 +277,10 @@ public abstract class GenericHibernateSpringDAOImpl<T, ID extends Serializable> 
     protected void executeUpdate(String update, Object param) {
         this.getHibernateTemplate().bulkUpdate(update, param);
     }
+
+    @Override
+    public Long countAll() {
+        Query query = getSession().createQuery("SELECT COUNT(*) FROM " + this.getPersistentClass().getSimpleName());
+        return (Long) query.uniqueResult();
+    }
 }

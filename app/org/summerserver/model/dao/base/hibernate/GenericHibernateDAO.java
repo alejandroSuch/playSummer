@@ -9,4 +9,5 @@ import java.io.Serializable;
  */
 public interface GenericHibernateDAO<T, ID extends Serializable> extends GenericDAO<T, ID> {
     //
+    public Long countAll();
 }
