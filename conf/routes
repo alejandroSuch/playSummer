@@ -10,12 +10,10 @@ OPTIONS        /*url                                 controllers.Application.opt
 POST           /services/wall                        @org.summerserver.controllers.StatusUpdateServices.addStatusUpdate()
 GET            /services/wall                        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int=1)
 GET            /services/wall/:page                  @org.summerserver.controllers.StatusUpdateServices.getStatusUpdates(page:Int)
-GET            /services/wall/by-relevance           @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
-GET            /services/wall/by-relevance/:page     @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
 
 # Wall by relevance
-GET            /services/wall/relevance              @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
-GET            /services/wall/relevance/:page        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
+GET            /services/wall/by-relevance              @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int=1)
+GET            /services/wall/by-relevance/:page        @org.summerserver.controllers.StatusUpdateServices.getStatusUpdatesByRelevance(page:Int)
 
 # User
 GET            /services/user/:userId                @org.summerserver.controllers.StatusUpdateServices.getUserStatusUpdates(userId:String, page:Int=1)
